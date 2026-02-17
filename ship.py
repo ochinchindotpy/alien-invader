@@ -23,17 +23,26 @@ class Ship(pygame.sprite.Sprite):
         self._animation = [il.image_load(f"images/ship_explosion_{i}.png") for i in range(1, 8)]
 
         # upgradeable
+    
+        self.bullet_delay_current = settings.fire_speed
         self.bullet_delay = settings.fire_speed
-        self._bullet_delay_default = settings.fire_speed
+        self.bullet_timer = 0
+        self.max_bullets = 3
+        self.bullet_speed = 5
 
+        self.speed_percentage = 1
+        self.speed_both = 0
         self.speed_default = settings.ship_speed
-        self._shift_speed_default = settings.ship_speed_shift
+        self.shift_speed_default = settings.ship_speed_shift
 
         self.control_ability = None
         self.tab_ability = None
         self.shift_ability = ...
 
+
+        self.more_upgrades = 0 # remove
         self.slow_move = False
+        self.extra_life = False
 
     def validate_position(self):
         """Invert your moviment if you try to move out of the screen"""
@@ -45,25 +54,27 @@ class Ship(pygame.sprite.Sprite):
 
     def update(self, dt):
         """Checks if you can move and updates your position"""
-        self.bullet_delay -= dt
+        self.bullet_timer += dt
         self.validate_position()
 
-        self.rect.centerx += self.speed * self.moving
+        # bug: for some reason, sometimes (after getting speed_default) it feels like it's faster to move right than left
+        self.rect.centerx += (self.speed + self.speed_both) * self.moving * self.speed_percentage
 
     def shoot(self):
         """Shoots a bullet"""
         if self.slow_move:
             self.moving = 0
-        if len(self.bullets) < 4:
-            self.bullets.add(Bullet(self.screen, self.rect, self.speed*self.moving))
+        if len(self.bullets) <= self.max_bullets:
+            self.bullets.add(Bullet(self.screen, self.rect, self.speed*self.moving, self.bullet_speed))
+            self.bullet_timer = 0
 
     def die(self):
         if self.dead >= 0 and self.dead < 8:
             self.image = self._animation[self.dead-1]
             self.dead += 1
 
-    def call_upgrade(self, type, action):
-        ...
+    def upgrade(self, stat, change):
+        setattr(self, stat, getattr(self, stat) + change)
 
     def blitme(self):
         """Draws the ship"""

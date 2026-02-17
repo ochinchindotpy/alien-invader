@@ -6,6 +6,7 @@ from controller import Controller
 from alien_handler import EnemyHandler
 from difficult import DifficultManager
 from upgrade_manager import UpgradeManager
+from debugging import Debug
 
 #main.py
 def run_game():
@@ -20,29 +21,37 @@ def run_game():
     difficult = DifficultManager(settings)
     enemy_handler = EnemyHandler(screen, settings, difficult)
     upgrade_manager = UpgradeManager(screen, settings, enemy_handler)
+    debug = Debug(screen, False)
 
     while True:
         fps.tick(60)
         #print(fps.get_fps())
         dt = fps.get_time()
 
-        gf.check_events(ship)
+        gf.check_events(debug)
         
         # keyboard listener
         control.handle_input()
-        
-        # updates, if player died
+
+        # updates if player has not died
         if ship.dead == -1:
             ship.update(dt)
             ship.bullets.update()
             difficult.update(dt)
             enemy_handler.update(ship)
-            #upgrade_manager.update(dt, ship)
+            upgrade_manager.update(dt, ship)
 
-        ship.die()
+        debug.set_lines(
+            f"ship speed: {(ship.speed + ship.speed_both) * ship.moving * ship.speed_percentage  
+}",
+            f"attack speed: {ship.bullet_delay_current}",
+            f"extra life: {ship.extra_life}"
+        )
+
+        ship.die() # if player died plays explosion animation
 
         # render everything
-        gf.update_screen(settings, screen, ship, enemy_handler.alien_group, upgrade_manager.upgrades_in_screen) 
+        gf.update_screen(settings, screen, ship, enemy_handler.alien_group, upgrade_manager.upgrades_in_screen, debug) 
 
 if __name__ == "__main__":
     run_game()

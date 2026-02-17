@@ -18,7 +18,7 @@ class Controller:
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LSHIFT]:
-            self.ship.speed = self.ship._shift_speed_default
+            self.ship.speed = self.ship.shift_speed_default
             self.ship.slow_move = True
         else:
             self.ship.speed = self.ship.speed_default
@@ -36,10 +36,10 @@ class Controller:
         self.ship.moving = -1
 
     def attack(self):
-        if self.ship.bullet_delay > 0: # don't shoot if not ready
+        if self.ship.bullet_delay > self.ship.bullet_timer: # don't shoot if not ready
             return
         self.ship.shoot()
-        self.ship.bullet_delay = self.ship._bullet_delay_default
+        self.ship.bullet_delay_current = self.ship.bullet_delay
 
 
     def stop(self):

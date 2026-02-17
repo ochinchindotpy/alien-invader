@@ -5,16 +5,21 @@ from enemies import Alien
 class Upgrade(pygame.sprite.Sprite):
     # todo: upgrades to the player's ship
     
-    def __init__(self, screen, settings, alien: Alien, rarity, category, stat):
+    def __init__(self, screen, settings, alien: Alien, rarity, category, upgrade_key, upgrade_item):
         super().__init__()
         self.image = il.image_load("images/upgrade_temp.png")
         self.rect = self.image.get_rect()
         self.screen = screen
         self.screen_rect = screen.get_rect()
+        
         self.settings = settings
         self.rect.x = alien.rect.x
         self.rect.y = alien.rect.y
-        self.info = [rarity, category, stat]
+        
+        self.rarity = rarity
+        self.category = category
+        self.upgrade_key = upgrade_key
+        self.upgrade_item = upgrade_item
 
     def update(self):
         self.rect.y += 2
@@ -22,6 +27,13 @@ class Upgrade(pygame.sprite.Sprite):
     def blitme(self):
         self.screen.blit(self.image, self.rect)
     
-    def on_collision(self, ship):
+    def on_collision(self, ship): # todo: remember to change um._spawn()
         if bool(pygame.sprite.collide_rect(self, ship)):
-            print(self.info)
+            ship.upgrade(self.upgrade_key, self.upgrade_item["value"])
+            print(self.upgrade_key)
+    
+            self.kill()
+            
+    
+
+

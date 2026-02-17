@@ -26,15 +26,15 @@ class UpgradeManager:
             "weapon": {"nothing": "reroll"},
 
             "move_speed": {
-                            "default_speed": {"value": 0.5, "text": "Your ship is faster in normal speed!"},
-                            "slow_speed": {"value": 0.3, "text": "Your ship got faster in slow mode!"},
+                            "speed_default": {"value": 0.5, "text": "Your ship is faster in normal speed!"},
+                            "shift_speed_default": {"value": 0.3, "text": "Your ship got faster in slow mode!"},
                             "speed_percentage": {"value": 0.1, "text": r"Your ship got 10% faster!"},  # 10%
-                            "speed_temp": {"value": 3, "duration": 5, "text": "Your ship moves really fast for 5 seconds!"}, 
+                            #"speed_temp": {"value": 3, "duration": 5, "text": "Your ship moves really fast for 5 seconds!"}, 
                             "speed_both": {"value": 0.2, "text": "Your entire ship got faster!"}
                             },
 
             "fire_speed": {
-                            "bullet_delay": {"value": -5*60, "text": "Your guns are recharging faster!"}, # 
+                            "bullet_delay": {"value": -5*60, "text": "Your guns are recharging faster!"}, # DECREASES the delay between bullets, so it's negative
                             "max_bullets": {"value": 1, "text": "More bullets!"},
                             #"max_kills": {}, # this will be pretty hard to implement, but ok
                             "bullet_speed": {"value": 1.5, "text": "Faster bullets!"}
@@ -64,37 +64,43 @@ class UpgradeManager:
     
     def _spawn(self, alien: Alien):
         if self.upgrade_frequency > self.last_upgrade_timer: # avoid too many upgrades
-            # todo: Shop and shop.coin class
+            # todo: Shop class with shop.coin
             return
         if random.random() > self.upgrade_odds: # rng, only 30% of chance of spawning
             # todo: Shop and shop.coin class
             self.upgrade_odds += 0.05 # bad luck protection
             return
         
-        upgrade_type = random.choice(self.categories)
+        # todo: this (below) should be on upgrade.on_collision(), but it will stay here for now
 
-        if upgrade_type in self.last_upgrades: # reroll if you got same category too recently
-            upgrade_type = random.choice(self.categories)
+        # todo: this (above) should be on upgrade.on_collision(), but it will stay here for now
+        
+
+        upgrade_category = random.choice(self.categories)
+
+        if upgrade_category in self.last_upgrades: # reroll if you got same category too recently
+            upgrade_category = random.choice(self.categories)
         
         # write that you got this upgrade recently
         if len(self.last_upgrades) >= 3:
             self.last_upgrades.pop(0)
-        self.last_upgrades.append(upgrade_type)
+        self.last_upgrades.append(upgrade_category)
         
         
         print("Upgrade!")
-        # testing below, to be delete later
-        """testing below, to be delete later"""
+        # testing below, to be deleted later
+        """testing below, to be deleted later"""
 
 
 
-        common_all = self.common_upgrades[upgrade_type]
-        if common_all == "weapon":
+        common_all = self.common_upgrades[upgrade_category]
+        if upgrade_category == "weapon":
             print("no")
             return
         
-        stat = random.choice(list(common_all.keys()))
+        upgrade_key = random.choice(list(common_all.keys()))
+        upgrade_item = common_all[upgrade_key]
 
-        self.upgrades_in_screen.add(Upgrade(self.screen, self.settings, alien, "common", upgrade_type, stat))
+        self.upgrades_in_screen.add(Upgrade(self.screen, self.settings, alien, "common", upgrade_category, upgrade_key, upgrade_item))
 
 
