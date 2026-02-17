@@ -1,11 +1,10 @@
 import random
 import pygame
 import assets as il
-from difficult import DifficultManager  
 
 #alien.py
 class Alien(pygame.sprite.Sprite):
-    def __init__(self, screen, settings, dm: DifficultManager, offset_x=0, offset_y=0, has_dash=False):
+    def __init__(self, screen, settings, dm, offset_x=0, offset_y=0, has_dash=False):
         super(Alien, self).__init__()
         self.screen = screen
         
@@ -16,12 +15,12 @@ class Alien(pygame.sprite.Sprite):
         self.has_dash = has_dash
 
         # speed_info
-        min = dm.get_speed_info("min_roll")
-        max = dm.get_speed_info("max_roll")
+        min_speed = dm.get_speed_info("min_roll")
+        max_speed = dm.get_speed_info("max_roll")
         constant = dm.get_speed_info("constant")
         roll = dm.get_speed_info("rolls_quantity")
 
-        self.speed = constant + sum(random.randint(min, max) for _ in range(roll)) # difficult related
+        self.speed = constant + sum(random.randint(min_speed, max_speed) for _ in range(roll)) # difficult related
 
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()

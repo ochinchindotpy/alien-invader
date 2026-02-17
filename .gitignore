@@ -6,3 +6,4 @@ build/
 venv/
 .env
 *.log
+notes.txt

@@ -7,8 +7,9 @@ class Settings:
         self.screen_width = 1200
         self.screen_height = 800
         self.bg_color = (120, 120, 210)
+        
 
-        self.fire_speed = 60 # in frames
-
+        self.fire_speed = 1000 # in ms
+        self.upgrade_frequency = 5 # in seconds 
         self.ship_speed = 3
         self.ship_speed_shift = 1.3

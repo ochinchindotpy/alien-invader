@@ -15,8 +15,8 @@ class DifficultManager:
 
         # speed info
         self.speed_info = {
-            "min_roll": 1, 
-            "max_roll": 3,
+            "min_roll": 0, 
+            "max_roll": 2,
             "rolls_quantity": 5,
             "constant": 1
         }
@@ -86,3 +86,22 @@ class DifficultManager:
 
     def _allow_shield(self): #todo: add shield
         ...
+
+
+if __name__ == "__main__": # debugging
+    from settings import Settings
+    dm = DifficultManager(Settings())
+    d = {}
+    for i in range (1000000):
+        speed = dm.get_speed_info("constant") + sum(random.randint(dm.get_speed_info("min_roll"), dm.get_speed_info("max_roll")) for _ in range(dm.get_speed_info("rolls_quantity"))) # difficult related
+        
+        if speed in list(d.keys()):
+            d[speed] += 1
+        else:
+            d[speed] = 1
+    
+    
+    d_sort = list(d.keys())
+    d_sort.sort()
+    for key in d_sort:
+        print(f"{key}: {d[key]}   |   {d[key]/1000000}")

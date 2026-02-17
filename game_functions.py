@@ -9,7 +9,7 @@ def check_events(ship):
         if event.type == pygame.QUIT:
             sys.exit()
 
-def update_screen(setting, screen, ship, enemies):
+def update_screen(setting, screen, ship, enemies, upgrades_troops):
     screen.fill(setting.bg_color)
     ship.blitme() # draws the ship
     
@@ -18,6 +18,8 @@ def update_screen(setting, screen, ship, enemies):
     
     for enemy in enemies:
         enemy.blitme()
-    
+    for upgrade in upgrades_troops:
+        upgrade.blitme()
+
     pygame.display.flip() # update display
 
