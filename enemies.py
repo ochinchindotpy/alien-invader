@@ -31,7 +31,6 @@ class Alien(pygame.sprite.Sprite):
         
     def update(self):
         """Update enemy, should be called by the enemy handler"""
-
         self.rect.y += self.speed
 
     def attack(self): #difficult related

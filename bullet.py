@@ -1,7 +1,7 @@
 import pygame
 import assets as il
 #bullet.py
-class Bullet(pygame.sprite.Sprite):
+class LaserBullet(pygame.sprite.Sprite):
     def __init__(self, screen: pygame.Surface, ship_rect, x_speed, y_speed):
         super().__init__()
 

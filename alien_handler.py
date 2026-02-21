@@ -31,7 +31,7 @@ class EnemyHandler:
                 alien.kill()
                 continue
 
-            self.kill_aliens(alien, ship.bullets)
+            self.kill_aliens(alien, ship.weapon.bullets)
             self.kill_ship(alien, ship)
 
 

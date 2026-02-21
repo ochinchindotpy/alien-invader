@@ -12,11 +12,20 @@ def check_events(debug):
             if event.key == pygame.K_F3:
                 debug.debug_mode = not debug.debug_mode
 
+def update_logic(ship, difficult, enemy_handler, upgrade_manager, dt):
+    if ship.dead == -1:
+        ship.update(dt)
+        ship.weapon.bullets.update()
+        difficult.update(dt)
+        enemy_handler.update(ship)
+        upgrade_manager.update(dt, ship)
+
+
 def update_screen(setting, screen, ship, enemies, upgrades_troops, debug):
     screen.fill(setting.bg_color)
     ship.blitme() # draws the ship
     
-    for bullet in ship.bullets:
+    for bullet in ship.weapon.bullets:
          bullet.blitme()
     
     for enemy in enemies:

@@ -1,9 +1,12 @@
 __pycache/
 *.pyc
-*.zip
-dist/
-build/
 venv/
 .env
 *.log
 notes.txt
+# pyinstaller
+dist/
+build/
+*.zip
+*.rar
+*.spec

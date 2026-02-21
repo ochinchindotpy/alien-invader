@@ -1,10 +1,6 @@
 import random
 
 class DifficultManager:
-    #todo: make the game harder as the player stays alive
-    # maybe every 30~60 seconds, a random attribute increases, like alien speed or number of alien spawning
-    # EnemyHandler should read info from this class and act on it
-    
     def __init__(self, settings):
         self.settings = settings
 
