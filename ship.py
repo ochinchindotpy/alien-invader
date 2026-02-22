@@ -23,8 +23,8 @@ class Ship(pygame.sprite.Sprite):
         self._animation = [il.image_load(f"images/ship_explosion_{i}.png") for i in range(1, 8)]
 
         # to be removed
-        self.bullet_delay_current = settings.fire_speed
-        self.bullet_delay = settings.fire_speed
+        self.bullet_delay_current = 0
+        self.bullet_delay = 0
         self.bullet_timer = 0
         self.max_bullets = 3
         self.bullet_speed = 5
@@ -33,6 +33,7 @@ class Ship(pygame.sprite.Sprite):
         self.speed_percentage = 1
         self.speed_both = 0
         
+        self.speed: int = 0
         self.speed_default = settings.ship_speed
         self.shift_speed_default = settings.ship_speed_shift
 
@@ -75,8 +76,6 @@ class Ship(pygame.sprite.Sprite):
 
     def shoot(self):
         """Shoots a bullet"""
-        if self.slow_move:
-            self.moving = 0
         self.weapon.attack(self)
 
     def die(self):

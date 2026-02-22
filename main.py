@@ -16,7 +16,7 @@ def run_game():
     pygame.display.set_caption("Alien Invasion")
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     fps = pygame.time.Clock()
-    weapon =  SpreadWeapon(settings)
+    weapon =  ContinuousWeapon(settings)
     ship = Ship(screen, settings, weapon)
     control = Controller(ship, settings)
     ship.player = control
@@ -47,9 +47,10 @@ def run_game():
         #    f"ship speed: {(ship.speed + ship.speed_both) * ship.moving * ship.speed_percentage}",
         #    f"attack speed: {ship.bullet_delay_current}",
         #    f"extra life: {ship.extra_life}"
-             f"Holding: {ship.weapon}",
-             f"Can change? {ship.timer > 10000}",
-             f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
+        #     f"Holding: {ship.weapon}",
+        #     f"Can change? {ship.timer > 10000}",
+        #     f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
+            f"timer = {ship.weapon.bullet_timer}"
         )
 
         ship.die() # if player died plays explosion animation

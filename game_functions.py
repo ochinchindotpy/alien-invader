@@ -1,5 +1,6 @@
 import pygame
 import sys
+from typing import TYPE_CHECKING
 
 
 #game_funtions.py

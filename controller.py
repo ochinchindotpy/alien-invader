@@ -1,10 +1,11 @@
 import pygame
 import weapons as w
+from ship import Ship 
 
 #controller.py
 class Controller:
     def __init__(self, ship, settings):
-        self.ship = ship
+        self.ship:Ship = ship
         self.changed = True
         self.actions = {
             pygame.K_s: self.stop,
@@ -38,11 +39,6 @@ class Controller:
         self.ship.moving = -1
 
     def attack(self):
-        #if self.ship.bullet_delay > self.ship.bullet_timer: # don't shoot if not ready
-        #    return
-        #self.ship.shoot()
-        #self.ship.bullet_delay_current = self.ship.bullet_delay
-
         self.ship.shoot()
 
     def stop(self):

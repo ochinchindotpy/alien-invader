@@ -1,3 +1,4 @@
+import json
 
 class Settings:
     """A class to store all settings for Alien Invasion"""
@@ -9,7 +10,14 @@ class Settings:
         self.bg_color = (120, 120, 210)
         
 
-        self.fire_speed = 1000 # in ms
         self.upgrade_frequency = 5 # in seconds 
         self.ship_speed = 3
         self.ship_speed_shift = 1.3
+
+        with open("settings_weapon.json", "r") as f:
+            self.weapon_data = json.load(f)
+
+
+    def get_weapon_settings(self, weapon) -> dict:
+        return self.weapon_data[weapon]
+        
