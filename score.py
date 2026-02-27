@@ -1,12 +1,16 @@
 import datetime
+import math
 
 class Score:
     def __init__(self):
         self.scores = []
         file = open("scores.txt", mode="r")
-        self.sort_score(file.readlines())
+        #self.sort_score(file.readlines())
         self.this_score = 0
         file.close()
+
+    def __str__(self):
+        return str(self.this_score)
 
     def sort_score(self, previous_scores):
         all_scores = []
@@ -25,3 +29,7 @@ class Score:
         with open("scores.txt", "a") as file:
             file.write(new_save + "\n")
         
+    def update(self, dead_aliens, multiplier, dt):
+        self.this_score += math.ceil((dt/100) ** multiplier)
+        for alien in dead_aliens:
+            self.this_score += math.ceil(1000 - alien.rect.y + 10*alien.speed**2)

@@ -27,23 +27,23 @@ class UpgradeManager:
             "weapon": {"nothing": "reroll"},
 
             "move_speed": {
-                            "speed_default": {"value": 0.5, "text": "Your ship is faster in normal speed!"},
-                            "shift_speed_default": {"value": 0.3, "text": "Your ship got faster in slow mode!"},
-                            "speed_percentage": {"value": 0.1, "text": r"Your ship got 10% faster!"},  # 10%
-                            #"speed_temp": {"value": 3, "duration": 5, "text": "Your ship moves really fast for 5 seconds!"}, 
-                            "speed_both": {"value": 0.2, "text": "Your entire ship got faster!"}
+                            "speed_default": {"value": 0.5, "target": "ship", "text": "Your ship is faster in normal speed!"},
+                            "shift_speed_default": {"value": 0.3, "target": "ship", "text": "Your ship got faster in slow mode!"},
+                            "speed_percentage": {"value": 0.1, "target": "ship", "text": r"Your ship got 10% faster!"},  # 10%
+                            #"speed_temp": {"value": 3, "duration": 5, "target": "ship", "text": "Your ship moves really fast for 5 seconds!"}, 
+                            "speed_both": {"value": 0.2, "target": "ship", "text": "Your entire ship got faster!"}
                             },
 
             "fire_speed": {
-                            "bullet_delay": {"value": -5*60, "text": "Your guns are recharging faster!"}, # DECREASES the delay between bullets, so it's negative
-                            "max_bullets": {"value": 1, "text": "More bullets!"},
-                            #"max_kills": {}, # this will be pretty hard to implement, but ok
-                            "bullet_speed": {"value": 1.5, "text": "Faster bullets!"}
+                            "bullet_delay": {"value": -5*60, "target": "ship.weapon", "text": "Your guns are recharging faster!"}, # DECREASES the delay between bullets, so it's negative
+                            "max_bullets": {"value": 1, "target": "ship.weapon", "text": "More bullets!"},
+                            #"max_kills": {"value": 1, "target": "ship.weapon", "text": Your bullets pierce!}, # this will be pretty hard to implement, but ok
+                            "bullet_speed": {"value": 1.5, "target": "ship.weapon", "text": "Faster bullets!"}
             },
 
             "ability": {
-                            "extra_life": {"value": True, "text": "Your ship's hull got more resistent!"},
-                            "more_upgrades": {"value": 25, "text": "Killing aliens get you more upgrades!"},
+                            "extra_life": {"value": True, "target": "ship", "text": "Your ship's hull got more resistent!"},
+                            "more_upgrades": {"value": 25, "target": "upgrade", "text": "Killing aliens get you more upgrades!"},
             }
         } # all upgrades will be common for now
         self.categories = ["move_speed", "fire_speed", "ability"] # todo: once implemented, add "weapon" here

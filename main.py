@@ -8,6 +8,7 @@ from difficult import DifficultManager
 from upgrade_manager import UpgradeManager
 from debugging import Debug
 from weapons import LaserWeapon, SpreadWeapon, ContinuousWeapon
+from score import Score
 
 #main.py
 def run_game():
@@ -16,7 +17,7 @@ def run_game():
     pygame.display.set_caption("Alien Invasion")
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     fps = pygame.time.Clock()
-    weapon =  ContinuousWeapon(settings)
+    weapon =  LaserWeapon(settings)
     ship = Ship(screen, settings, weapon)
     control = Controller(ship, settings)
     ship.player = control
@@ -24,6 +25,7 @@ def run_game():
     enemy_handler = EnemyHandler(screen, settings, difficult)
     upgrade_manager = UpgradeManager(screen, settings, enemy_handler)
     debug = Debug(screen, True)
+    score = Score()
 
     while True:
         fps.tick(60)
@@ -41,7 +43,9 @@ def run_game():
                         difficult,
                         enemy_handler,
                         upgrade_manager, 
+                        score,
                         dt)
+
 
         debug.set_lines(
         #    f"ship speed: {(ship.speed + ship.speed_both) * ship.moving * ship.speed_percentage}",
@@ -50,7 +54,8 @@ def run_game():
         #     f"Holding: {ship.weapon}",
         #     f"Can change? {ship.timer > 10000}",
         #     f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
-            f"timer = {ship.weapon.bullet_timer}"
+        #    f"timer = {ship.weapon.bullet_timer}"
+            f"score: {score}"
         )
 
         ship.die() # if player died plays explosion animation

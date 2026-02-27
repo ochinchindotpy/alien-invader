@@ -13,13 +13,14 @@ def check_events(debug):
             if event.key == pygame.K_F3:
                 debug.debug_mode = not debug.debug_mode
 
-def update_logic(ship, difficult, enemy_handler, upgrade_manager, dt):
+def update_logic(ship, difficult, enemy_handler, upgrade_manager, score, dt):
     if ship.dead == -1:
         ship.update(dt)
         ship.weapon.bullets.update()
         difficult.update(dt)
         enemy_handler.update(ship)
         upgrade_manager.update(dt, ship)
+        score.update(enemy_handler.dead_aliens, difficult.difficult, dt)
 
 
 def update_screen(setting, screen, ship, enemies, upgrades_troops, debug):

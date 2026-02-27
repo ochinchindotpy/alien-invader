@@ -1,13 +1,19 @@
 import random
 import pygame
 import assets as il
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from difficult import DifficultManager
+    from settings import Settings
+    from ship import Ship
 
 #alien.py
 class Alien(pygame.sprite.Sprite):
-    def __init__(self, screen, settings, dm, offset_x=0, offset_y=0, has_dash=False):
+    def __init__(self, screen, settings: "Settings", dm: "DifficultManager", offset_x=0, offset_y=0, has_dash=False):
         super(Alien, self).__init__()
         self.screen = screen
-        
+
         self.image = il.image_load("images/enemy.png")
         if has_dash:
             self.image = il.image_load("images/enemy_with_attack.png")
@@ -33,9 +39,13 @@ class Alien(pygame.sprite.Sprite):
         """Update enemy, should be called by the enemy handler"""
         self.rect.y += self.speed
 
-    def attack(self): #difficult related
-        # not sure if i will work on this
-        ...
+    def attack(self, ship: "Ship"): #difficult related
+        if not self.has_dash:
+            return
+        if 50 > abs(ship.rect.x - self.rect.x) and self.rect.y > (ship.screen.get_width() - 200):
+            print(1)
+            self.speed *= 2
+            self.has_dash = False
 
     def check_death(self, bullet_group) -> bool:
         hits = pygame.sprite.spritecollide(self, bullet_group, True)
