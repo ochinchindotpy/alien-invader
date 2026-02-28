@@ -58,22 +58,16 @@ class Controller:
         self.ship.moving = 0
 
     def change(self, key): # temporary solution for changing weapon
-        return
-        if self.changed:
+        if self.deny_hold(key):
             return
 
         if type(self.ship.weapon) == w.LaserWeapon:
             self.ship.weapon = w.SpreadWeapon(self.settings)
-            print(type(self.ship.weapon))
         else:
             self.ship.weapon = w.LaserWeapon(self.settings)
-            print(type(self.ship.weapon))
-        self.changed = True
-        self.ship.timer = 0
 
     def enemies(self, key):
         if self.deny_hold(key):
             return
         self.settings.enemies_have_dash = not self.settings.enemies_have_dash
-        print(2)
         

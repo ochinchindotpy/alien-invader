@@ -16,7 +16,8 @@ class Weapon:
     modifiers = {
         "bullet_delay": {"collected": 0, "variation": -5*60},
         "max_bullets": {"collected": 0, "variation": 1},
-        "bullet_speed": {"collected": 0, "variation": 1.5}
+        "bullet_speed": {"collected": 0, "variation": 1.5},
+        "max_kills": {"collected": 0, "variation": 1}
     }
 
 
@@ -67,15 +68,17 @@ class Weapon:
         
         self.bullet_timer = 0
         self.timer = 0
+        self.max_kills = 1
+
 
 
 class LaserWeapon(Weapon):
     def __init__(self, settings):
         self.bullets = pygame.sprite.Group()
-        super()._reset_stat(settings, str(self))
+        self._reset_stat(settings, str(self))
 
     def _do_attack(self, ship):
-        self.bullets.add(LaserBullet(ship.screen, ship.rect, ship.speed*ship.moving, self.bullet_speed))
+        self.bullets.add(LaserBullet(ship.screen, ship.rect, ship.speed*ship.moving, self.bullet_speed, self.max_kills))
     
     def __str__(self):
         return "Laser Weapon"

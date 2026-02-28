@@ -49,9 +49,9 @@ class Alien(pygame.sprite.Sprite):
             self.speed = max(7, self.speed*2)
             self.has_dash = False
 
-    def check_death(self, bullet_group) -> bool:
-        hits = pygame.sprite.spritecollide(self, bullet_group, True)
-        return bool(hits)
+    def check_death(self, bullet_group) -> list:
+        hits = pygame.sprite.spritecollide(self, bullet_group, False)
+        return hits
 
     def check_kill(self, ship) -> bool:
         return pygame.sprite.collide_rect(self, ship)

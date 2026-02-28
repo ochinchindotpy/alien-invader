@@ -18,7 +18,7 @@ class GameWorld:
         pygame.display.set_caption("Alien Invasion")
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.fps = pygame.time.Clock()
-        self.weapon =  SpreadWeapon(self.settings)
+        self.weapon =  LaserWeapon(self.settings)
         self.ship = Ship(self.screen, self.settings, self.weapon)
         self.control = Controller(self.ship, self.settings)
         self.ship.player = self.control

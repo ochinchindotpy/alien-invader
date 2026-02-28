@@ -33,7 +33,7 @@ class Upgrade(pygame.sprite.Sprite):
             self.target.upgrade(self.upgrade_key, self.upgrade_item["value"])
             print(self.upgrade_key)
             self.kill()
-            
+            print(self.target)
     
 
 

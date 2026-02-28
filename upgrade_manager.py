@@ -45,7 +45,7 @@ class UpgradeManager:
             "fire_speed": {
                             "bullet_delay": {"value": -5*60, "target": "ship.weapon", "text": "Your guns are recharging faster!"}, # DECREASES the delay between bullets, so it's negative
                             "max_bullets": {"value": 1, "target": "ship.weapon", "text": "More bullets!"},
-                            #"max_kills": {"value": 1, "target": "ship.weapon", "text": Your bullets pierce!}, # this will be pretty hard to implement, but ok
+                            "max_kills": {"value": 1, "target": "ship.weapon", "text": "Your bullets pierce!"}, # this will be pretty hard to implement, but ok
                             "bullet_speed": {"value": 1.5, "target": "ship.weapon", "text": "Faster bullets!"}
             },
 
@@ -62,6 +62,7 @@ class UpgradeManager:
         }
 
         self.categories = ["move_speed", "fire_speed", "ability"] # todo: once implemented, add "weapon" here
+        #self.categories = ["fire_speed"]
         
         self.once = False
     
@@ -133,4 +134,3 @@ class UpgradeManager:
         target = self.get_target(upgrade_item) # who it will apply to
 
         self.upgrades_in_screen.add(Upgrade(self.screen, self.settings, alien, target, "common", upgrade_category, upgrade_key, upgrade_item))
-
