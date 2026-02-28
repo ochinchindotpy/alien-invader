@@ -57,9 +57,9 @@ class DifficultManager:
         if self._next_increase > self.timer:
             return
         buffed = random.choice(self.category_caller)
-        print(f"Changing: {buffed}")
         self._next_increase = self.timer + random.randint(30, 60) * 1000 # in ms
         self.categories[buffed]()
+        self.difficult += 0.1
 
     def _increase_spawn(self): # category
         buffed = random.choice(self._spawn_keys)
@@ -74,7 +74,7 @@ class DifficultManager:
 
         self.speed_info[buffed] = self.speed_info[buffed] + 1
 
-    def _unlock_special(self):
+    def _unlock_special(self): # category
         self._specials[random.choice(self._specials_caller)]()
 
     def _allow_dash(self): # todo: add dash
@@ -95,7 +95,6 @@ if __name__ == "__main__": # debugging
             d[speed] += 1
         else:
             d[speed] = 1
-    
     
     d_sort = list(d.keys())
     d_sort.sort()

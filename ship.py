@@ -1,12 +1,15 @@
 import pygame
 import assets as il
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from weapons import Weapon 
 
 #ship.py
 class Ship(pygame.sprite.Sprite):
     moving = 0
     player = None
 
-    def __init__(self, screen: pygame.Surface, settings, weapon):
+    def __init__(self, screen: pygame.Surface, settings, weapon: "Weapon"):
         super().__init__()
         self.dead = -1
         self.weapon = weapon
@@ -14,7 +17,7 @@ class Ship(pygame.sprite.Sprite):
 
         # render info
         self.screen = screen
-        self.image = il.image_load("images\ship.png")
+        self.image = il.image_load(r"images\ship.png")
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.position_x = self.screen_rect.centerx

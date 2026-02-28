@@ -49,9 +49,6 @@ class EnemyHandler:
         """Asks an alien if they have collided with the player"""
         if alien.check_kill(ship):
             ship.dead = 1
-            print(ship.screen.get_width() - 100)
-            print(f"alien x: {alien.rect.x}, ship x: {ship.rect.x}")
-            print(f"alien y: {alien.rect.y}, ship y: {ship.rect.y}")
             print("You lost and aliens successfully invaded earth")
 
     def spawn_alien(self):  # difficult related

@@ -56,7 +56,7 @@ class Weapon:
         return True
 
     def upgrade(self, stat, change):
-        if stat not in self.modifiers.keys:
+        if stat not in self.modifiers.keys():
             raise ValueError("Tried to modify a stat that does not exist")
         setattr(self, stat, getattr(self, stat) + change)
 

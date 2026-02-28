@@ -20,6 +20,7 @@ class Controller:
             pygame.K_1: self.enemies
         }
         self.settings = settings
+        self.previous = {}
 
     def handle_input(self):
         """Handles all inputs"""
@@ -34,23 +35,30 @@ class Controller:
 
         for key, action in self.actions.items():
             if keys[key]:
-                action()
+                action(key)
 
         self.previous = keys
 
-    def move_right(self):
+    def deny_hold(self, key):
+        return self.previous[key]
+        
+
+    def move_right(self, key):
         self.ship.moving = 1 
 
-    def move_left(self):
+    def move_left(self, key):
         self.ship.moving = -1
 
-    def attack(self):
+    def attack(self, key):
+        if self.deny_hold(key):
+            return
         self.ship.shoot()
 
-    def stop(self):
+    def stop(self, key):
         self.ship.moving = 0
 
-    def change(self): # temporary solution for changing weapon
+    def change(self, key): # temporary solution for changing weapon
+        return
         if self.changed:
             return
 
@@ -63,8 +71,8 @@ class Controller:
         self.changed = True
         self.ship.timer = 0
 
-    def enemies(self):
-        if self.previous[pygame.K_1]:
+    def enemies(self, key):
+        if self.deny_hold(key):
             return
         self.settings.enemies_have_dash = not self.settings.enemies_have_dash
         print(2)

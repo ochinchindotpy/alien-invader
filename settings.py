@@ -1,4 +1,5 @@
 import json
+from assets import get_path
 
 class Settings:
     """A class to store all settings for Alien Invasion"""
@@ -14,7 +15,9 @@ class Settings:
         self.ship_speed = 3
         self.ship_speed_shift = 1.3
 
-        with open("settings_weapon.json", "r") as f:
+        file = get_path("settings_weapon.json")
+
+        with open(file, "r") as f:
             self.weapon_data = json.load(f)
 
 
