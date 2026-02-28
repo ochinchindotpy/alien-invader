@@ -11,7 +11,7 @@ from weapons import LaserWeapon, SpreadWeapon, ContinuousWeapon
 from score import Score
 
 # game.py
-class Game:
+class GameWorld:
     def __init__(self):
         pygame.init()
         self.settings = Settings()
@@ -26,7 +26,7 @@ class Game:
         self.enemy_handler = EnemyHandler(self.screen, self.settings, self.difficult)
         self.upgrade_manager = UpgradeManager(self.screen, self.settings, self.enemy_handler, self)
         self.debug = Debug(self.screen, True)
-        self.score = Score()
+        self.score = Score(self)
 
     def play(self):
         while True:

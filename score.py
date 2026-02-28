@@ -1,8 +1,13 @@
 import datetime
 import math
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from game import GameWorld 
 
 class Score:
-    def __init__(self):
+    def __init__(self, world: "GameWorld"):
+        self.world = world
         self.scores = []
         file = open("scores.txt", mode="r")
         #self.sort_score(file.readlines())
@@ -30,6 +35,8 @@ class Score:
             file.write(new_save + "\n")
         
     def update(self, dead_aliens, multiplier, dt):
+        if self.world.ship.moving == 0:
+            return
         self.this_score += math.ceil((dt/100) ** multiplier)
         for alien in dead_aliens:
             self.this_score += math.ceil(1000 - alien.rect.y + 10*alien.speed**2)

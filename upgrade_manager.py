@@ -7,14 +7,14 @@ from upgrades import Upgrade
 from enemies import Alien
 
 if TYPE_CHECKING:
-    from game import Game
+    from game import GameWorld
 
 
 class UpgradeManager:
     
     upgrades_in_screen = pygame.sprite.Group()
     
-    def __init__(self, screen, settings, enemy_handler, world: "Game"):
+    def __init__(self, screen, settings, enemy_handler, world: "GameWorld"):
         self.world = world
         self.more_upgrades = 0
 
@@ -118,8 +118,8 @@ class UpgradeManager:
         return self.targets[context["target"]]
 
     def _spawn(self, alien: Alien):
-        #if self._deny_spawn():
-        #    return
+        if self._deny_spawn():
+            return
 
         upgrade_category = self._choose_upgrade()
         self._register_recent(upgrade_category)

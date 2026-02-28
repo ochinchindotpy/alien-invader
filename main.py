@@ -1,6 +1,6 @@
-from game import Game
+from game import GameWorld
 
 
 if __name__ == "__main__":
-    a = Game()
+    a = GameWorld()
     a.play()
