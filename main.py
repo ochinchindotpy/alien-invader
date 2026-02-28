@@ -29,7 +29,6 @@ def run_game():
 
     while True:
         fps.tick(60)
-        #print(fps.get_fps())
         dt = fps.get_time()
 
         gf.check_events(debug)
@@ -40,7 +39,7 @@ def run_game():
         control.handle_input()
         # updates if player has not died
         gf.update_logic(ship,
-                        difficult,
+                        difficult,  
                         enemy_handler,
                         upgrade_manager, 
                         score,

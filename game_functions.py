@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 
 
 #game_funtions.py
-
 def check_events(debug):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

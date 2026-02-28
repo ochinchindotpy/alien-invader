@@ -8,11 +8,13 @@ if TYPE_CHECKING:
     from settings import Settings
     from ship import Ship
 
+
 #alien.py
 class Alien(pygame.sprite.Sprite):
     def __init__(self, screen, settings: "Settings", dm: "DifficultManager", offset_x=0, offset_y=0, has_dash=False):
         super(Alien, self).__init__()
         self.screen = screen
+        has_dash = settings.enemies_have_dash # temp
 
         self.image = il.image_load("images/enemy.png")
         if has_dash:
@@ -34,7 +36,6 @@ class Alien(pygame.sprite.Sprite):
         self.rect.x = random.randint(50, settings.screen_width) - offset_x
         self.rect.y = self.screen_rect.top - 50 - offset_y
         
-        
     def update(self):
         """Update enemy, should be called by the enemy handler"""
         self.rect.y += self.speed
@@ -42,15 +43,15 @@ class Alien(pygame.sprite.Sprite):
     def attack(self, ship: "Ship"): #difficult related
         if not self.has_dash:
             return
-        if 50 > abs(ship.rect.x - self.rect.x) and self.rect.y > (ship.screen.get_width() - 200):
-            print(1)
-            self.speed *= 2
+        if 50 > abs(ship.rect.x - self.rect.x) and self.rect.y > (ship.screen.get_width() - 700):
+            # todo: fix this
+            # works on my machine; but this actually breaks if your screen has a different size.
+            self.speed = max(7, self.speed*2)
             self.has_dash = False
 
     def check_death(self, bullet_group) -> bool:
         hits = pygame.sprite.spritecollide(self, bullet_group, True)
         return bool(hits)
-
 
     def check_kill(self, ship) -> bool:
         return pygame.sprite.collide_rect(self, ship)

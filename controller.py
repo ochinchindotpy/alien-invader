@@ -1,10 +1,14 @@
 import pygame
 import weapons as w
 from ship import Ship 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from settings import Settings
 
 #controller.py
 class Controller:
-    def __init__(self, ship, settings):
+    def __init__(self, ship, settings: "Settings"):
         self.ship:Ship = ship
         self.changed = True
         self.actions = {
@@ -12,7 +16,8 @@ class Controller:
             pygame.K_d: self.move_right,
             pygame.K_a: self.move_left,
             pygame.K_SPACE: self.attack,
-            pygame.K_F2: self.change
+            pygame.K_F2: self.change,
+            pygame.K_1: self.enemies
         }
         self.settings = settings
 
@@ -31,6 +36,7 @@ class Controller:
             if keys[key]:
                 action()
 
+        self.previous = keys
 
     def move_right(self):
         self.ship.moving = 1 
@@ -56,3 +62,10 @@ class Controller:
             print(type(self.ship.weapon))
         self.changed = True
         self.ship.timer = 0
+
+    def enemies(self):
+        if self.previous[pygame.K_1]:
+            return
+        self.settings.enemies_have_dash = not self.settings.enemies_have_dash
+        print(2)
+        
