@@ -31,7 +31,7 @@ class UpgradeManager:
         formatation = {
             "category": {"stat": "value", "text": "Text that  will appear on the screen"}
         }
-        self.common_upgrades = { # todo: add "target" key to stat dict, example "target": "ship". This could allow better upgrades 
+        self.common_upgrades = {
             "weapon": {"nothing": "reroll"},
 
             "move_speed": {
@@ -56,9 +56,9 @@ class UpgradeManager:
         } # all upgrades will be common for now
         
         self.targets = {
-            "ship": world.ship,
-            "ship.weapon": world.ship.weapon,
-            "upgrade": self
+            "ship": lambda: world.ship,
+            "ship.weapon": lambda: world.ship.weapon,
+            "upgrade": lambda: self
         }
 
         self.categories = ["move_speed", "fire_speed", "ability"] # todo: once implemented, add "weapon" here
@@ -116,7 +116,7 @@ class UpgradeManager:
         self.upgrade_odds -= 0.4
 
     def get_target(self, context):
-        return self.targets[context["target"]]
+        return self.targets[context["target"]]()
 
     def _spawn(self, alien: Alien):
         if self._deny_spawn():

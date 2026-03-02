@@ -9,6 +9,7 @@ from upgrade_manager import UpgradeManager
 from debugging import Debug
 from weapons import LaserWeapon, SpreadWeapon, ContinuousWeapon
 from score import Score
+#from menu import Menu
 
 # game.py
 class GameWorld:
@@ -28,8 +29,19 @@ class GameWorld:
         self.debug = Debug(self.screen, True)
         self.score = Score(self)
 
+        self._estado = "menu"
+        #self.menu = Menu(self)
+
+
     def play(self):
+        """Main loop"""
+        
         while True:
+        #if self._estado == "menu":
+        #    self.menu.play()
+        #    print(self._estado)
+        #    return
+
             self.fps.tick(60)
             dt = self.fps.get_time()
 
@@ -38,29 +50,25 @@ class GameWorld:
             # keyboard listener
             self.control.handle_input()
             # updates if player has not died
-            gf.update_logic(self.ship,
-                            self.difficult,  
-                            self.enemy_handler,
-                            self.upgrade_manager, 
-                            self.score,
-                            dt)
+            gf.update_logic(self.ship, self.difficult, self.enemy_handler, self.upgrade_manager, self.score, dt)
 
             self.debug.set_lines(
             #    f"ship speed: {(ship.speed + ship.speed_both) * ship.moving * ship.speed_percentage}",
             #    f"attack speed: {ship.bullet_delay_current}",
             #    f"extra life: {ship.extra_life}"
-                 f"Holding: {self.ship.weapon}",
-#                 f"Bullet delay: {self.ship.weapon.fire_speed}"
- #                f"max bullets: {self.ship.weapon.max_bullets}"
-  #               f"bullet speed: {self.ship.weapon.bullet_speed}"
-            #     f"Can change? {ship.timer > 10000}",
-            #     f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
+            #    f"Holding: {self.ship.weapon}",
+            #    f"Bullet delay: {self.ship.weapon.fire_speed}"
+            #    f"max bullets: {self.ship.weapon.max_bullets}"
+            #    f"bullet speed: {self.ship.weapon.bullet_speed}"
+            #    f"Can change? {ship.timer > 10000}",
+            #    f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
             #    f"timer = {ship.weapon.bullet_timer}"
                 f"score: {self.score}"
             )
-
-            self.ship.die() # if player died plays explosion animation
-
+            
+            # plays explosion animation if player died 
+            self.ship.die()
+            
             # render everything
             gf.update_screen(self.settings, self.screen, self.ship, self.enemy_handler.alien_group, self.upgrade_manager.upgrades_in_screen, self.debug) 
-    
+        

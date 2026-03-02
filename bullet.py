@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 #bullet.py
-class LaserBullet(pygame.sprite.Sprite):
+class Bullet(pygame.sprite.Sprite):
     def __init__(self, screen: pygame.Surface, ship_rect: pygame.rect.Rect, x_speed: float, y_speed: float, max_kills=1):
         super().__init__()
 
@@ -57,6 +57,7 @@ class Continuous(pygame.sprite.Sprite):
         self.rect.y = ship_rect.y
         self.color = (140, 0, 70)
         self.screen = screen
+
 
     def update(self):
         self.rect.height += 3

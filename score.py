@@ -9,10 +9,8 @@ class Score:
     def __init__(self, world: "GameWorld"):
         self.world = world
         self.scores = []
-        file = open("scores.txt", mode="r")
         #self.sort_score(file.readlines())
         self.this_score = 0
-        file.close()
 
     def __str__(self):
         return str(self.this_score)

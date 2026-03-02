@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 #alien.py
 class Alien(pygame.sprite.Sprite):
-    def __init__(self, screen, settings: "Settings", dm: "DifficultManager", offset_x=0, offset_y=0, has_dash=False):
+    def __init__(self, screen:pygame.surface.Surface, settings: "Settings", speed, offset_x=0, offset_y=0, has_dash=False):
         super(Alien, self).__init__()
         self.screen = screen
         has_dash = settings.enemies_have_dash # temp
@@ -23,12 +23,7 @@ class Alien(pygame.sprite.Sprite):
         self.has_dash = has_dash
 
         # speed_info
-        min_speed = dm.get_speed_info("min_roll")
-        max_speed = dm.get_speed_info("max_roll")
-        constant = dm.get_speed_info("constant")
-        roll = dm.get_speed_info("rolls_quantity")
-
-        self.speed = constant + sum(random.randint(min_speed, max_speed) for _ in range(roll)) # difficult related
+        self.speed = speed
 
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()

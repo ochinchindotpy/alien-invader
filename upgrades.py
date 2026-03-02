@@ -1,11 +1,14 @@
 import pygame
 import assets as il
-from enemies import Alien
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from enemies import Alien
+
 
 class Upgrade(pygame.sprite.Sprite):
-    # todo: upgrades to the player's ship
-    
-    def __init__(self, screen, settings, alien: Alien, target, rarity, category, upgrade_key, upgrade_item):
+        
+    def __init__(self, screen, settings, alien: "Alien", target, rarity, category, upgrade_key, upgrade_item):
         super().__init__()
         self.image = il.image_load("images/upgrade_temp.png")
         self.rect = self.image.get_rect()
@@ -34,6 +37,3 @@ class Upgrade(pygame.sprite.Sprite):
             print(self.upgrade_key)
             self.kill()
             print(self.target)
-    
-
-

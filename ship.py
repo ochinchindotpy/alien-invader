@@ -25,13 +25,6 @@ class Ship(pygame.sprite.Sprite):
         self.rect.bottom = self.screen_rect.bottom
         self._animation = [il.image_load(f"images/ship_explosion_{i}.png") for i in range(1, 8)]
 
-        # to be removed
-        self.bullet_delay_current = 0
-        self.bullet_delay = 0
-        self.bullet_timer = 0
-        self.max_bullets = 3
-        self.bullet_speed = 5
-
         # upgradeable
         self.speed_percentage = 1
         self.speed_both = 0
@@ -82,11 +75,13 @@ class Ship(pygame.sprite.Sprite):
         self.weapon.attack(self)
 
     def die(self):
+        """Plays death animation"""
         if self.dead >= 0 and self.dead < 8:
             self.image = self._animation[self.dead-1]
             self.dead += 1
 
     def upgrade(self, stat, change):
+        """Should be called by Upgrade to change stats"""
         setattr(self, stat, getattr(self, stat) + change)
         if stat not in self.upgrades:
             self.upgrades[stat] = 1
@@ -95,6 +90,5 @@ class Ship(pygame.sprite.Sprite):
 
     def blitme(self):
         """Draws the ship"""
-        
         self.screen.blit(self.image, self.rect)
 

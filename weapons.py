@@ -1,5 +1,5 @@
 import pygame
-from bullet import LaserBullet, Continuous
+from bullet import Bullet, Continuous
 import random
 import math
 from typing import TYPE_CHECKING
@@ -9,17 +9,16 @@ if TYPE_CHECKING:
 
 
 class Weapon:
-    """Base class for other SubWeapons"""
-    # todo: ship should use a child of this class 
-    # every time the ship shoots, it calls ship.weapon.attack()
-    # weapon.attack() should return a respective Bullet class 
-    modifiers = {
+    """Base class for other SubWeapons
+    Ship has an instance of a subclass of this class"""
+    modifiers = { # todo: work on this
         "bullet_delay": {"collected": 0, "variation": -5*60},
         "max_bullets": {"collected": 0, "variation": 1},
         "bullet_speed": {"collected": 0, "variation": 1.5},
         "max_kills": {"collected": 0, "variation": 1}
     }
 
+    bullets = pygame.sprite.Group()
 
     def __init__(self, settings):
         self.fire_speed = settings.fire_speed
@@ -74,11 +73,10 @@ class Weapon:
 
 class LaserWeapon(Weapon):
     def __init__(self, settings):
-        self.bullets = pygame.sprite.Group()
         self._reset_stat(settings, str(self))
 
     def _do_attack(self, ship):
-        self.bullets.add(LaserBullet(ship.screen, ship.rect, ship.speed*ship.moving, self.bullet_speed, self.max_kills))
+        self.bullets.add(Bullet(ship.screen, ship.rect, ship.speed*ship.moving, self.bullet_speed, self.max_kills))
     
     def __str__(self):
         return "Laser Weapon"
@@ -86,7 +84,6 @@ class LaserWeapon(Weapon):
 
 class SpreadWeapon(Weapon):
     def __init__(self, settings):
-        self.bullets = pygame.sprite.Group()
         self._reset_stat(settings, str(self))
 
     def update_before_attack(self, ship):
@@ -108,7 +105,7 @@ class SpreadWeapon(Weapon):
             y_speed = self.bullet_speed * math.cos(angle_rad)
             print(f"x = {x_speed}, y = {y_speed}, angle = {angle}, angle_rad = {angle_rad}")
             
-            self.bullets.add(LaserBullet(ship.screen, ship.rect, x_speed, y_speed))
+            self.bullets.add(Bullet(ship.screen, ship.rect, x_speed, y_speed))
 
     def update_after_attack(self, ship):
         super().update_after_attack(ship)
@@ -125,7 +122,6 @@ class ContinuousWeapon(Weapon):
     # you can't move while in attacking mode
     # you need to wait 0.5s to get out of attack mode
     def __init__(self, settings):
-        self.bullets = pygame.sprite.Group()
         self.max_bullets = 1
         self.bullet_speed = 5
         self.bullet_delay_current = 500
