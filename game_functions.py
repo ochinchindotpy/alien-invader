@@ -17,7 +17,7 @@ def update_logic(ship, difficult, enemy_handler, upgrade_manager, score, dt):
         ship.update(dt)
         ship.weapon.bullets.update()
         difficult.update(dt)
-        enemy_handler.update(ship)
+        enemy_handler.update(ship, dt)
         upgrade_manager.update(dt, ship)
         score.update(enemy_handler.dead_aliens, difficult.difficult, dt)
 

@@ -23,14 +23,14 @@ class EnemyHandler:
         self.alien_group = pygame.sprite.Group()
         self.dead_aliens: list = []
 
-        self.spawn_delay = self.dm.spawn_info["base_delay"] # 120 by default
+        self.spawn_delay = self.dm.get_spawn_info("base_delay") # 120 by default
 
         self.timer = 0 # frames
 
-    def update(self, ship: "Ship"):
+    def update(self, ship: "Ship", dt):
         """Updates all aliens"""
         self.dead_aliens = []
-        self.timer += 1 # - len(self.alien_group)/10
+        self.timer += dt # - len(self.alien_group)/10
         alien: Alien
 
         for alien in self.alien_group:
@@ -58,9 +58,8 @@ class EnemyHandler:
     def kill_ship(self, alien: Alien, ship: "Ship"):
         """Asks an alien if they have collided with the player"""
         if alien.check_kill(ship):
-            ship.dead = 1
-            print("You lost and aliens successfully invaded earth")
-
+            ship.take_hit()
+        
     def _update_dead_alien(self, alien: Alien):
         """Checks if alien died and add it to the list of dead_aliens"""
         if alien.alive():
@@ -87,9 +86,11 @@ class EnemyHandler:
         self.timer -= self.spawn_delay
 
         self.spawn_delay = self.dm.get_spawn_info("base_delay") # 120 by default
-        min_delay = self.spawn_delay - self.dm.get_spawn_info("delay_offset_p") # at least 90 by default
-        max_delay = self.spawn_delay + self.dm.get_spawn_info("delay_offset_n") # at most 120 by default
+        min_delay = self.dm.get_spawn_info("delay_offset_p") # at least -30 by default
+        max_delay = self.dm.get_spawn_info("delay_offset_n") # at most 30 by default
 
-        self.spawn_delay = randint(min_delay, max_delay) / self.dm.difficult
-    
+
+        self.spawn_delay += randint(-min_delay, max_delay) / self.dm.difficult
+        print(self.spawn_delay)
+
 

@@ -1,13 +1,17 @@
 import pygame
 import assets as il
 from typing import TYPE_CHECKING
+from ability.no_ability import Ability
+
 if TYPE_CHECKING:
     from weapons import Weapon 
+    from controller import Controller
+    
 
 #ship.py
 class Ship(pygame.sprite.Sprite):
     moving = 0
-    player = None
+    player: "Controller" = ...
 
     def __init__(self, screen: pygame.Surface, settings, weapon: "Weapon"):
         super().__init__()
@@ -33,18 +37,16 @@ class Ship(pygame.sprite.Sprite):
         self.speed_default = settings.ship_speed
         self.shift_speed_default = settings.ship_speed_shift
 
-        self.control_ability = None
+        self.control_ability = Ability()
         self.tab_ability = None
         self.shift_ability = ...
         self.upgrades = {}
 
-        self.more_upgrades = 0 # remove
         self.slow_move = False
         self.extra_life = False
-        
-        self.previous = 0
-        self.current = 0
-        self.diff = 0
+        self.invencible = False
+        self._invecible_timer = 0
+
 
     def validate_position(self):
         """Invert your moviment if you try to move out of the screen"""
@@ -65,8 +67,10 @@ class Ship(pygame.sprite.Sprite):
         self.current = int(self.rect.centerx)
         self.diff = int(self.current) - int(self.previous)
         
+        self.update_invencible(dt)
+
         self.timer += dt
-        if self.timer > 10000: # temporary solution for changing weapon
+        if self.timer > 2000: # temporary solution for changing weapon
             self.player.changed = False
 
 
@@ -74,11 +78,35 @@ class Ship(pygame.sprite.Sprite):
         """Shoots a bullet"""
         self.weapon.attack(self)
 
-    def die(self):
+    def death_animation(self):
         """Plays death animation"""
-        if self.dead >= 0 and self.dead < 8:
-            self.image = self._animation[self.dead-1]
-            self.dead += 1
+        if self.dead == -1 or self.dead > 6:
+            return
+        self.image = self._animation[self.dead]
+        self.dead += 1
+        
+
+    def take_hit(self):
+        """Kills ship"""
+
+        if self.invencible:
+            return
+        
+        if bool(self.extra_life):
+            self.extra_life = False
+            self.invencible = True
+            self._invecible_timer = 0
+            return
+
+        self.dead = 0
+        print("You lost and aliens successfully invaded earth")
+
+    def update_invencible(self, dt):
+        if not self.invencible:
+            return
+        self._invecible_timer += dt
+        if self._invecible_timer > 5000:
+            self.invencible = False
 
     def upgrade(self, stat, change):
         """Should be called by Upgrade to change stats"""

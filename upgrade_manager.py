@@ -62,7 +62,7 @@ class UpgradeManager:
         }
 
         self.categories = ["move_speed", "fire_speed", "ability"] # todo: once implemented, add "weapon" here
-        #self.categories = ["fire_speed"]
+        #self.categories = ["ability"]
         
         self.once = False
     
@@ -129,7 +129,7 @@ class UpgradeManager:
         common_all = self.common_upgrades[upgrade_category] # entire dict
 
         upgrade_key = random.choice(list(common_all.keys())) # category of the dict (i.e: "fire_speed")
-
+        #upgrade_key = "extra_life"
         upgrade_item = common_all[upgrade_key] # {"value": 1, "text": "abc"}
         target = self.get_target(upgrade_item) # who it will apply to
 

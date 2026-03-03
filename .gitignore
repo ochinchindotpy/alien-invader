@@ -1,9 +1,11 @@
 __pycache/
+__pycache__/
 *.pyc
 venv/
 .env
 *.log
 notes.txt
+.vscode/
 # pyinstaller
 dist/
 build/

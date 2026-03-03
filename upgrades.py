@@ -34,6 +34,4 @@ class Upgrade(pygame.sprite.Sprite):
     def on_collision(self, ship): # todo: remember to change um._spawn()        
         if pygame.sprite.collide_rect(self, ship):
             self.target.upgrade(self.upgrade_key, self.upgrade_item["value"])
-            print(self.upgrade_key)
             self.kill()
-            print(self.target)

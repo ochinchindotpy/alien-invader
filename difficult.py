@@ -1,3 +1,4 @@
+from logging import BufferingFormatter
 import random
 
 class DifficultManager:
@@ -19,18 +20,18 @@ class DifficultManager:
         self._speed_keys = list(self.speed_info.keys())
         # spawn info
         self.spawn_info = { 
-            "spawner_min": 1,
-            "spawner_max": 3,
-            "base_delay": 90,
-            "delay_offset_p": 30,
-            "delay_offset_n": 30,
+            "spawner_min": {"value": 1, "increase_rate": 1},
+            "spawner_max": {"value": 3, "increase_rate": 1},
+            "base_delay": {"value": 1500, "increase_rate": -250},
+            "delay_offset_p": {"value": 500, "increase_rate": -50},
+            "delay_offset_n": {"value": 500, "increase_rate": -50},
         }
         self._spawn_keys = list(self.spawn_info.keys())
 
         self.categories = {
             "spawning": self._increase_spawn,
-            "speed": self._increase_speed,
-            "special": self._unlock_special
+        #    "speed": self._increase_speed,
+        #    "special": self._unlock_special
         }
         self.category_caller = list(self.categories.keys())
 
@@ -42,7 +43,7 @@ class DifficultManager:
         
     def get_spawn_info(self, data):
         """spawner_min - spawner_max - base_delay - delay_offset_p -delay_offset_n"""
-        return self.spawn_info[data]
+        return self.spawn_info[data]["value"]
 
     def get_speed_info(self, data):
         """min_roll - max_roll - rolls_quantity - constant"""
@@ -63,7 +64,11 @@ class DifficultManager:
 
     def _increase_spawn(self): # category
         buffed = random.choice(self._spawn_keys)
-        self.spawn_info[buffed] = self.spawn_info[buffed] + 1
+        print("spawn")
+        print(buffed)
+        self.spawn_info[buffed]
+        print("-"*10)
+        self.spawn_info[buffed]["value"] = self.spawn_info[buffed]["value"] + self.spawn_info[buffed]["increase_rate"]
 
 
     def _increase_speed(self): # category
@@ -71,6 +76,7 @@ class DifficultManager:
             self.speed_info["max_roll"] = self.speed_info["max_roll"] + 1
             return
         buffed = random.choice(self._speed_keys)
+        print(buffed)
 
         self.speed_info[buffed] = self.speed_info[buffed] + 1
 

@@ -17,7 +17,8 @@ class Controller:
             pygame.K_a: self.move_left,
             pygame.K_SPACE: self.attack,
             pygame.K_F2: self.change,
-            pygame.K_1: self.enemies
+            pygame.K_1: self.enemies,
+            pygame.K_LCTRL: self.control
         }
         self.settings = settings
         self.previous = {}
@@ -65,6 +66,11 @@ class Controller:
             self.ship.weapon = w.SpreadWeapon(self.settings)
         else:
             self.ship.weapon = w.LaserWeapon(self.settings)
+
+    def control(self, key):
+        if self.deny_hold(key):
+            return
+        self.ship.control_ability.on_press()
 
     def enemies(self, key):
         if self.deny_hold(key):

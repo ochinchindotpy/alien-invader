@@ -29,7 +29,6 @@ class GameWorld:
         self.debug = Debug(self.screen, True)
         self.score = Score(self)
 
-        self._estado = "menu"
         #self.menu = Menu(self)
 
 
@@ -37,7 +36,6 @@ class GameWorld:
         """Main loop"""
         
         while True:
-        #if self._estado == "menu":
         #    self.menu.play()
         #    print(self._estado)
         #    return
@@ -49,14 +47,21 @@ class GameWorld:
 
             # keyboard listener
             self.control.handle_input()
+            
             # updates if player has not died
             gf.update_logic(self.ship, self.difficult, self.enemy_handler, self.upgrade_manager, self.score, dt)
 
             self.debug.set_lines(
             #    f"ship speed: {(ship.speed + ship.speed_both) * ship.moving * ship.speed_percentage}",
             #    f"attack speed: {ship.bullet_delay_current}",
-            #    f"extra life: {ship.extra_life}"
+            #    f"extra life: {self.ship.extra_life}",
+            #    f"invencible: {self.ship.invencible}",
+            #    f"timer: {self.ship._invecible_timer}",
             #    f"Holding: {self.ship.weapon}",
+                 f"min: {self.difficult.get_spawn_info("spawner_min")}",
+                 f"max: {self.difficult.get_spawn_info("spawner_max")}",
+                 f"difficult: {self.difficult.difficult}",
+
             #    f"Bullet delay: {self.ship.weapon.fire_speed}"
             #    f"max bullets: {self.ship.weapon.max_bullets}"
             #    f"bullet speed: {self.ship.weapon.bullet_speed}"
@@ -67,7 +72,7 @@ class GameWorld:
             )
             
             # plays explosion animation if player died 
-            self.ship.die()
+            self.ship.death_animation()
             
             # render everything
             gf.update_screen(self.settings, self.screen, self.ship, self.enemy_handler.alien_group, self.upgrade_manager.upgrades_in_screen, self.debug) 

@@ -37,12 +37,11 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x = self.true_x
         self.rect.y = self.true_y
 
-    def on_collision(self, target):
+    def on_collision(self, target: pygame.sprite.Sprite):
         self.max_kills -= 1
         if self.max_kills == 0:
             self.kill()
         target.kill()
-        print("You have slain an enemy")
 
     def blitme(self):
         """draws the bullet"""

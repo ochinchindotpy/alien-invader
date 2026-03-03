@@ -3,12 +3,13 @@ from bullet import Bullet, Continuous
 import random
 import math
 from typing import TYPE_CHECKING
+from action import Action
 
 if TYPE_CHECKING:
     from settings import Settings
 
 
-class Weapon:
+class Weapon(Action):
     """Base class for other SubWeapons
     Ship has an instance of a subclass of this class"""
     modifiers = { # todo: work on this
@@ -17,38 +18,30 @@ class Weapon:
         "bullet_speed": {"collected": 0, "variation": 1.5},
         "max_kills": {"collected": 0, "variation": 1}
     }
-
+    
     bullets = pygame.sprite.Group()
 
-    def __init__(self, settings):
-        self.fire_speed = settings.fire_speed
-   
+    def __init__(self, settings: "Settings"):
+        pass
+    
     def attack(self, ship):
         """Basic implementation of attack. Subclass just need to change their own _do_attack"""
-        if not self.validate_attack():
-            return
-        
-        print("shooting")
-        self.update_before_attack(ship)
-        
-        self._do_attack(ship)
+        super().action(ship)
 
-        self.update_after_attack(ship)
-
-    def _do_attack(self, ship):
+    def _do(self, ship):
         raise NotImplemented("Weapon is a base class, do not try to attack with it")
 
     def update(self, dt):
         self.bullet_timer += dt
 
-    def update_before_attack(self, ship):
+    def _before(self, ship):
         if ship.slow_move:
             ship.moving = 0
 
-    def update_after_attack(self, ship):
+    def _after(self, *args, **kwargs):
         self.bullet_timer = 0
 
-    def validate_attack(self):
+    def _validate(self, *args, **kwargs):
         if self.bullet_delay > self.bullet_timer: # don't shoot if not ready
             return False
         if len(self.bullets) >= self.max_bullets:
@@ -75,7 +68,7 @@ class LaserWeapon(Weapon):
     def __init__(self, settings):
         self._reset_stat(settings, str(self))
 
-    def _do_attack(self, ship):
+    def _do(self, ship):
         self.bullets.add(Bullet(ship.screen, ship.rect, ship.speed*ship.moving, self.bullet_speed, self.max_kills))
     
     def __str__(self):
@@ -86,15 +79,15 @@ class SpreadWeapon(Weapon):
     def __init__(self, settings):
         self._reset_stat(settings, str(self))
 
-    def update_before_attack(self, ship):
-        super().update_before_attack(ship)
+    def _before(self, ship):
+        super()._before(ship)
         if ship.slow_move:
             self.rng = self.rng_slow_mode
         else:
             self.rng = self.rng_angle
 
 
-    def _do_attack(self, ship):
+    def _do(self, ship):
         angles = 120 / self.bullets_per_attack
         rng = (-self.rng, self.rng)
 
@@ -103,12 +96,11 @@ class SpreadWeapon(Weapon):
             angle_rad = math.radians(angle)
             x_speed = ship.speed * ship.moving + self.bullet_speed * math.sin(angle_rad)
             y_speed = self.bullet_speed * math.cos(angle_rad)
-            print(f"x = {x_speed}, y = {y_speed}, angle = {angle}, angle_rad = {angle_rad}")
             
             self.bullets.add(Bullet(ship.screen, ship.rect, x_speed, y_speed))
 
-    def update_after_attack(self, ship):
-        super().update_after_attack(ship)
+    def _after(self, ship):
+        super()._after(ship)
         self.rng = self.rng_angle
 
     def __str__(self):
@@ -131,19 +123,19 @@ class ContinuousWeapon(Weapon):
         self._first_press = False
         self.is_attacking = False
 
-    def _do_attack(self, ship):
+    def _do(self, ship):
         self.is_attacking = not self.is_attacking
         if self.is_attacking:
             self.bullets.add(Continuous(ship.screen, ship.rect))
         self.ship = ship
 
-    def validate_attack(self):
+    def _validate(self):
         if self.is_attacking and self.bullet_timer > 500:
             return True
-        return super().validate_attack()
+        return super()._validate()
 
-    def update_before_attack(self, ship):
-        super().update_before_attack(ship)
+    def _before(self, ship):
+        super()._before(ship)
 
 
     def update(self, dt):
