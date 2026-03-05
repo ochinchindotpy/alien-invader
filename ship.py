@@ -1,7 +1,9 @@
 import pygame
 import assets as il
 from typing import TYPE_CHECKING
-from ability.no_ability import Ability
+from ability.teleport import Teleport
+from ability.dash import Dash
+
 
 if TYPE_CHECKING:
     from weapons import Weapon 
@@ -33,11 +35,10 @@ class Ship(pygame.sprite.Sprite):
         self.speed_percentage = 1
         self.speed_both = 0
         
-        self.speed: int = 0
         self.speed_default = settings.ship_speed
         self.shift_speed_default = settings.ship_speed_shift
 
-        self.control_ability = Ability()
+        self.control_ability = Teleport(self)
         self.tab_ability = None
         self.shift_ability = ...
         self.upgrades = {}
@@ -46,7 +47,16 @@ class Ship(pygame.sprite.Sprite):
         self.extra_life = False
         self.invencible = False
         self._invecible_timer = 0
+        
 
+
+    @property
+    def speed(self):
+        base = self.shift_speed_default if self.slow_move else self.speed_default
+        base += self.speed_both
+        base *= self.speed_percentage
+        base *= self.moving
+        return base
 
     def validate_position(self):
         """Invert your moviment if you try to move out of the screen"""
@@ -61,7 +71,7 @@ class Ship(pygame.sprite.Sprite):
         self.weapon.update(dt)
         self.validate_position()
         
-        self.position_x += (self.speed + self.speed_both) * self.moving * self.speed_percentage
+        self.position_x += self.speed #(self.speed + self.speed_both) * self.moving * self.speed_percentage
         self.previous = int(self.rect.centerx)
         self.rect.centerx = self.position_x #  (self.speed + self.speed_both) * self.moving * self.speed_percentage
         self.current = int(self.rect.centerx)
@@ -69,10 +79,11 @@ class Ship(pygame.sprite.Sprite):
         
         self.update_invencible(dt)
 
+        self.control_ability.update(dt)
+
         self.timer += dt
         if self.timer > 2000: # temporary solution for changing weapon
             self.player.changed = False
-
 
     def shoot(self):
         """Shoots a bullet"""

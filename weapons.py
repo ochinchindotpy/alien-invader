@@ -42,11 +42,9 @@ class Weapon(Action):
         self.bullet_timer = 0
 
     def _validate(self, *args, **kwargs):
-        if self.bullet_delay > self.bullet_timer: # don't shoot if not ready
-            return False
-        if len(self.bullets) >= self.max_bullets:
-            return False
-        return True
+        is_ready = self.bullet_timer >= self.bullet_delay 
+        has_bullet_slots = self.max_bullets > len(self.bullets)
+        return is_ready and has_bullet_slots
 
     def upgrade(self, stat, change):
         if stat not in self.modifiers.keys():
@@ -69,7 +67,7 @@ class LaserWeapon(Weapon):
         self._reset_stat(settings, str(self))
 
     def _do(self, ship):
-        self.bullets.add(Bullet(ship.screen, ship.rect, ship.speed*ship.moving, self.bullet_speed, self.max_kills))
+        self.bullets.add(Bullet(ship.screen, ship.rect, ship.speed, self.bullet_speed, self.max_kills))
     
     def __str__(self):
         return "Laser Weapon"
@@ -94,7 +92,7 @@ class SpreadWeapon(Weapon):
         for i in range(self.bullets_per_attack):
             angle = angles*(i-1) + random.randint(*rng)
             angle_rad = math.radians(angle)
-            x_speed = ship.speed * ship.moving + self.bullet_speed * math.sin(angle_rad)
+            x_speed = ship.speed + self.bullet_speed * math.sin(angle_rad)
             y_speed = self.bullet_speed * math.cos(angle_rad)
             
             self.bullets.add(Bullet(ship.screen, ship.rect, x_speed, y_speed))
@@ -136,7 +134,6 @@ class ContinuousWeapon(Weapon):
 
     def _before(self, ship):
         super()._before(ship)
-
 
     def update(self, dt):
         super().update(dt)

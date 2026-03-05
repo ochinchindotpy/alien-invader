@@ -1,26 +1,29 @@
-from ast import Raise
-from pickletools import read_uint1
-
+from abc import abstractmethod
 from action import Action
-from alien_handler import *
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ship import Ship
 
 class Ability(Action):
-    def __init__(self):
+    def __init__(self, ship: "Ship"):
+        self.ship = ship
         pass
     
-    def validate(self, *args, **kwargs):
-        return
+    @abstractmethod
+    def update(self, dt):
+        pass
 
-    def before(self, *args, **kwargs):
+    def _validate(self, *args, **kwargs):
+        return False
+
+    def _before(self, *args, **kwargs):
         pass
 
     def on_press(self, *args, **kwargs):
         return super().action(*args, **kwargs)
     
     def _do(self, *args, **kwargs):
-        print("nothing happened :(")
-        print("at least it's working :)")
-
+        pass
 
     def after(self, *args, **kwargs):
         pass

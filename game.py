@@ -58,17 +58,18 @@ class GameWorld:
             #    f"invencible: {self.ship.invencible}",
             #    f"timer: {self.ship._invecible_timer}",
             #    f"Holding: {self.ship.weapon}",
-                 f"min: {self.difficult.get_spawn_info("spawner_min")}",
-                 f"max: {self.difficult.get_spawn_info("spawner_max")}",
-                 f"difficult: {self.difficult.difficult}",
-
+            #    f"min: {self.difficult.get_spawn_info("spawner_min")}",
+            #    f"max: {self.difficult.get_spawn_info("spawner_max")}",
+            #    f"difficult: {self.difficult.difficult}",
+                f"speed: {self.ship.speed}",
+                f"timer: {self.ship.control_ability.timer}",
             #    f"Bullet delay: {self.ship.weapon.fire_speed}"
             #    f"max bullets: {self.ship.weapon.max_bullets}"
             #    f"bullet speed: {self.ship.weapon.bullet_speed}"
             #    f"Can change? {ship.timer > 10000}",
             #    f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
             #    f"timer = {ship.weapon.bullet_timer}"
-                f"score: {self.score}"
+            #    f"score: {self.score}"
             )
             
             # plays explosion animation if player died 

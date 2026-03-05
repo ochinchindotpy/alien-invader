@@ -28,10 +28,10 @@ class Controller:
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LSHIFT]:
-            self.ship.speed = self.ship.shift_speed_default
+            #self.ship.speed = self.ship.shift_speed_default
             self.ship.slow_move = True
         else:
-            self.ship.speed = self.ship.speed_default
+            #self.ship.speed = self.ship.speed_default
             self.ship.slow_move = False
 
         for key, action in self.actions.items():
