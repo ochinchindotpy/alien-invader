@@ -1,5 +1,5 @@
-from logging import BufferingFormatter
 import random
+
 
 class DifficultManager:
     def __init__(self, settings):

@@ -1,15 +1,16 @@
 import pygame
-import weapons as w
-from ship import Ship 
 from typing import TYPE_CHECKING
+
+import weapons as w
 
 if TYPE_CHECKING:
     from settings import Settings
+    from ship import Ship 
 
 #controller.py
 class Controller:
     def __init__(self, ship, settings: "Settings"):
-        self.ship:Ship = ship
+        self.ship: "Ship" = ship
         self.changed = True
         self.actions = {
             pygame.K_s: self.stop,

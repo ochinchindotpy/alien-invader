@@ -1,6 +1,8 @@
 import pygame
 import assets
 
+_TEXT_COLOR = (240, 240, 240)
+
 
 class Debug:
     def __init__(self, screen, debug_mode=False):
@@ -17,5 +19,5 @@ class Debug:
             return
 
         for i, text in enumerate(self.lines):
-            surface = self.font.render(str(text), True, (240, 240, 240))
+            surface = self.font.render(str(text), True, _TEXT_COLOR)
             self.screen.blit(surface, (20, i * 40))

@@ -19,8 +19,10 @@ class Alien(pygame.sprite.Sprite):
         self.image = il.image_load("images/enemy.png")
         if has_dash:
             self.image = il.image_load("images/enemy_with_attack.png")
-
+        
+        
         self.has_dash = has_dash
+        self.attack_range = int(self.screen.get_width()*0.4)
 
         # speed_info
         self.speed = speed
@@ -35,12 +37,14 @@ class Alien(pygame.sprite.Sprite):
         """Update enemy, should be called by the enemy handler"""
         self.rect.y += self.speed
 
-    def attack(self, ship: "Ship"): #difficult related
+    def attack(self, ship: "Ship"):
         if not self.has_dash:
             return
-        if 50 > abs(ship.rect.x - self.rect.x) and self.rect.y > (ship.screen.get_width() - 700):
-            # todo: fix this
-            # works on my machine; but this actually breaks if your screen has a different size.
+        
+        will_hit = 50 > abs(ship.rect.x - self.rect.x)
+        close_enough = self.rect.y > self.attack_range
+
+        if will_hit and close_enough:
             self.speed = max(7, self.speed*2)
             self.has_dash = False
 

@@ -8,6 +8,7 @@ from ability.dash import Dash
 if TYPE_CHECKING:
     from weapons import Weapon 
     from controller import Controller
+    from settings import Settings
     
 
 #ship.py
@@ -15,7 +16,7 @@ class Ship(pygame.sprite.Sprite):
     moving = 0
     player: "Controller" = ...
 
-    def __init__(self, screen: pygame.Surface, settings, weapon: "Weapon"):
+    def __init__(self, screen: pygame.Surface, settings: "Settings", weapon: "Weapon"):
         super().__init__()
         self.dead = -1
         self.weapon = weapon
@@ -45,8 +46,8 @@ class Ship(pygame.sprite.Sprite):
 
         self.slow_move = False
         self.extra_life = False
-        self.invencible = False
-        self._invecible_timer = 0
+        self.invincible = False
+        self._invincible_timer = 0
         
 
 
@@ -100,24 +101,24 @@ class Ship(pygame.sprite.Sprite):
     def take_hit(self):
         """Kills ship"""
 
-        if self.invencible:
+        if self.invincible:
             return
         
         if bool(self.extra_life):
             self.extra_life = False
-            self.invencible = True
-            self._invecible_timer = 0
+            self.invincible = True
+            self._invincible_timer = 0
             return
 
         self.dead = 0
         print("You lost and aliens successfully invaded earth")
 
     def update_invencible(self, dt):
-        if not self.invencible:
+        if not self.invincible:
             return
-        self._invecible_timer += dt
-        if self._invecible_timer > 5000:
-            self.invencible = False
+        self._invincible_timer += dt
+        if self._invincible_timer > 5000:
+            self.invincible = False
 
     def upgrade(self, stat, change):
         """Should be called by Upgrade to change stats"""

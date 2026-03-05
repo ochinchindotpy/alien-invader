@@ -2,13 +2,15 @@ import pygame
 import assets as il
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
+    from ship import Ship
     from enemies import Alien
 
 
 class Upgrade(pygame.sprite.Sprite):
         
-    def __init__(self, screen, settings, alien: "Alien", target, rarity, category, upgrade_key, upgrade_item):
+    def __init__(self, screen: pygame.Surface, settings, alien: "Alien", target: "Ship", rarity, category, upgrade_key, upgrade_item):
         super().__init__()
         self.image = il.image_load("images/upgrade_temp.png")
         self.rect = self.image.get_rect()
@@ -31,7 +33,7 @@ class Upgrade(pygame.sprite.Sprite):
     def blitme(self):
         self.screen.blit(self.image, self.rect)
     
-    def on_collision(self, ship): # todo: remember to change um._spawn()        
+    def on_collision(self, ship: "Ship"):        
         if pygame.sprite.collide_rect(self, ship):
             self.target.upgrade(self.upgrade_key, self.upgrade_item["value"])
             self.kill()
