@@ -3,6 +3,8 @@ import assets as il
 from typing import TYPE_CHECKING
 from ability.teleport import Teleport
 from ability.dash import Dash
+from ability.in_out import InOut
+
 
 
 if TYPE_CHECKING:
@@ -39,7 +41,7 @@ class Ship(pygame.sprite.Sprite):
         self.speed_default = settings.ship_speed
         self.shift_speed_default = settings.ship_speed_shift
 
-        self.control_ability = Teleport(self)
+        self.control_ability = InOut(self)
         self.tab_ability = None
         self.shift_ability = ...
         self.upgrades = {}
