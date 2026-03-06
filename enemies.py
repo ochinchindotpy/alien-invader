@@ -4,7 +4,6 @@ import assets as il
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from difficult import DifficultManager
     from settings import Settings
     from ship import Ship
 
@@ -30,7 +29,7 @@ class Alien(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         
-        self.rect.x = random.randint(50, settings.screen_width) - offset_x
+        self.rect.left = random.randint(0, settings.screen_width) - offset_x
         self.rect.y = self.screen_rect.top - 50 - offset_y
         
     def update(self):

@@ -62,7 +62,8 @@ class GameWorld:
             #    f"max: {self.difficult.get_spawn_info("spawner_max")}",
             #    f"difficult: {self.difficult.difficult}",
                 f"speed: {self.ship.speed}",
-                f"timer: {self.ship.control_ability.timer}",
+                f"timer: {self.ship.control_ability.cooldown_timer}",
+                f"timer: {self.ship.control_ability.return_timer}"
             #    f"Bullet delay: {self.ship.weapon.fire_speed}"
             #    f"max bullets: {self.ship.weapon.max_bullets}"
             #    f"bullet speed: {self.ship.weapon.bullet_speed}"

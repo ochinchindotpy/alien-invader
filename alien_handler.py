@@ -1,3 +1,5 @@
+from hmac import new
+
 import pygame
 from enemies import Alien
 from random import randint
@@ -81,16 +83,17 @@ class EnemyHandler:
 
         for _ in range(randint(min_spawn, max_spawn)):
             speed = self._generate_speed()
-            self.alien_group.add(Alien(self.screen, self.settings, speed, offset_y=randint(-50, 50)))
+            new_alien = Alien(self.screen, self.settings, speed, offset_y=randint(-50, 50))
+            self.alien_group.add(new_alien)
 
         self.timer -= self.spawn_delay
 
-        self.spawn_delay = self.dm.get_spawn_info("base_delay") # 120 by default
+        self.spawn_delay # 120 by default
         min_delay = self.dm.get_spawn_info("delay_offset_p") # at least -30 by default
         max_delay = self.dm.get_spawn_info("delay_offset_n") # at most 30 by default
 
 
-        self.spawn_delay += randint(-min_delay, max_delay) / self.dm.difficult
+        self.spawn_delay = self.dm.get_spawn_info("base_delay") + randint(-min_delay, max_delay) / self.dm.difficult
         print(self.spawn_delay)
 
 

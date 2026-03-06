@@ -88,9 +88,11 @@ class UpgradeManager:
     def _allow_spawn(self):
         # todo: Shop and shop.coin class
         is_ready = self.last_upgrade_timer >= self.upgrade_frequency # timer to avoid too many upgrades
-        had_luck = random.random() > self.upgrade_odds and self.upgrade_odds > 0
+        had_luck = self.upgrade_odds > random.random()
+
         if not had_luck:
             self.upgrade_odds += 0.05 # small bad luck protection
+
         return is_ready and had_luck
 
     def _choose_upgrade(self):
