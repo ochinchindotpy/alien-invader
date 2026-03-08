@@ -1,11 +1,11 @@
 import pygame
+from ability import in_out
+from ability.in_out import InOut
 import assets as il
 from typing import TYPE_CHECKING
 from ability.teleport import Teleport
 from ability.dash import Dash
 from ability.in_out import InOut
-
-
 
 if TYPE_CHECKING:
     from weapons import Weapon 
@@ -38,6 +38,8 @@ class Ship(pygame.sprite.Sprite):
         self.speed_percentage = 1
         self.speed_both = 0
         
+        self.speed_debuff = 0
+
         self.speed_default = settings.ship_speed
         self.shift_speed_default = settings.ship_speed_shift
 
@@ -51,14 +53,14 @@ class Ship(pygame.sprite.Sprite):
         self.invincible = False
         self._invincible_timer = 0
         
-
-
     @property
     def speed(self):
         base = self.shift_speed_default if self.slow_move else self.speed_default
+        base -= self.speed_debuff
         base += self.speed_both
         base *= self.speed_percentage
         base *= self.moving
+        
         return base
 
     def validate_position(self):

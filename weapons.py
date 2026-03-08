@@ -7,6 +7,7 @@ from action import Action
 
 if TYPE_CHECKING:
     from settings import Settings
+    from ship import Ship
 
 
 class Weapon(Action):
@@ -34,7 +35,7 @@ class Weapon(Action):
     def update(self, dt):
         self.bullet_timer += dt
 
-    def _before(self, ship):
+    def _before(self, ship: "Ship"):
         if ship.slow_move:
             ship.moving = 0
 
@@ -66,7 +67,7 @@ class LaserWeapon(Weapon):
     def __init__(self, settings):
         self._reset_stat(settings, str(self))
 
-    def _do(self, ship):
+    def _do(self, ship: "Ship"):
         self.bullets.add(Bullet(ship.screen, ship.rect, ship.speed, self.bullet_speed, self.max_kills))
     
     def __str__(self):
@@ -77,13 +78,12 @@ class SpreadWeapon(Weapon):
     def __init__(self, settings):
         self._reset_stat(settings, str(self))
 
-    def _before(self, ship):
+    def _before(self, ship: "Ship"):
         super()._before(ship)
         if ship.slow_move:
             self.rng = self.rng_slow_mode
         else:
             self.rng = self.rng_angle
-
 
     def _do(self, ship):
         angles = 120 / self.bullets_per_attack
@@ -104,7 +104,7 @@ class SpreadWeapon(Weapon):
     def __str__(self):
         return "Spread Weapon"
     
-
+    
 class ContinuousWeapon(Weapon):
     # once you attack, you get into attacking mode
     # in attacking mode, you shoot a single laser

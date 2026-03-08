@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ship import Ship
 
-_COOLDOWN = 3_000
-_TIME_IN = 3_000
-_TELEPORT_RANGE = 500
+_COOLDOWN = 7_000
+_TIME_IN = 2_500
+_TELEPORT_RANGE = 250
 
 
 class InOut(Ability):
@@ -47,8 +47,10 @@ class InOut(Ability):
         self.return_timer = 0
         self.cooldown_timer = 0
         self._used_ability = True
+        self.ship.speed_debuff = max(1, abs(self.ship.speed)/2)
 
     def out(self):
+        self.ship.speed_debuff = 0
         self.ship.position_x = self.return_place
         self.return_place = None
         self._used_ability = False

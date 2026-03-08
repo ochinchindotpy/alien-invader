@@ -26,3 +26,5 @@ class Teleport(Ability):
 
     def _after(self, *args, **kwargs):
         self.timer = 0
+
+    
