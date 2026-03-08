@@ -4,13 +4,12 @@ from typing import TYPE_CHECKING
 
 
 #game_funtions.py
-def check_events(debug):
+def check_events():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_F3:
-                debug.debug_mode = not debug.debug_mode
+        
+
 
 def update_logic(ship, difficult, enemy_handler, upgrade_manager, score, dt):
     if ship.dead == -1:

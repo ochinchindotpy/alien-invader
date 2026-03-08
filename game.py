@@ -35,47 +35,47 @@ class GameWorld:
     def play(self):
         """Main loop"""
         
-        while True:
+        #while True:
         #    self.menu.play()
         #    print(self._estado)
         #    return
 
-            self.fps.tick(60)
-            dt = self.fps.get_time()
+        self.fps.tick(60)
+        dt = self.fps.get_time()
 
-            gf.check_events(self.debug)
+        gf.check_events()
 
-            # keyboard listener
-            self.control.handle_input()
-            
-            # updates if player has not died
-            gf.update_logic(self.ship, self.difficult, self.enemy_handler, self.upgrade_manager, self.score, dt)
+        # keyboard listener
+        self.control.handle_input()
+        
+        # updates if player has not died
+        gf.update_logic(self.ship, self.difficult, self.enemy_handler, self.upgrade_manager, self.score, dt)
 
-            self.debug.set_lines(
-            #    f"ship speed: {(ship.speed + ship.speed_both) * ship.moving * ship.speed_percentage}",
-            #    f"attack speed: {ship.bullet_delay_current}",
-            #    f"extra life: {self.ship.extra_life}",
-            #    f"invencible: {self.ship.invencible}",
-            #    f"timer: {self.ship._invecible_timer}",
-            #    f"Holding: {self.ship.weapon}",
-            #    f"min: {self.difficult.get_spawn_info("spawner_min")}",
-            #    f"max: {self.difficult.get_spawn_info("spawner_max")}",
-            #    f"difficult: {self.difficult.difficult}",
-                f"speed: {self.ship.speed}",
-                f"timer: {self.ship.control_ability.cooldown_timer}",
-                f"timer: {self.ship.control_ability.return_timer}"
-            #    f"Bullet delay: {self.ship.weapon.fire_speed}"
-            #    f"max bullets: {self.ship.weapon.max_bullets}"
-            #    f"bullet speed: {self.ship.weapon.bullet_speed}"
-            #    f"Can change? {ship.timer > 10000}",
-            #    f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
-            #    f"timer = {ship.weapon.bullet_timer}"
-            #    f"score: {self.score}"
-            )
-            
-            # plays explosion animation if player died 
-            self.ship.death_animation()
-            
-            # render everything
-            gf.update_screen(self.settings, self.screen, self.ship, self.enemy_handler.alien_group, self.upgrade_manager.upgrades_in_screen, self.debug) 
+        self.debug.set_lines(
+        #    f"ship speed: {(ship.speed + ship.speed_both) * ship.moving * ship.speed_percentage}",
+        #    f"attack speed: {ship.bullet_delay_current}",
+        #    f"extra life: {self.ship.extra_life}",
+        #    f"invencible: {self.ship.invencible}",
+        #    f"timer: {self.ship._invecible_timer}",
+        #    f"Holding: {self.ship.weapon}",
+        #    f"min: {self.difficult.get_spawn_info("spawner_min")}",
+        #    f"max: {self.difficult.get_spawn_info("spawner_max")}",
+        #    f"difficult: {self.difficult.difficult}",
+            f"speed: {self.ship.speed}",
+            f"timer: {self.ship.control_ability.cooldown_timer}",
+            f"timer: {self.ship.control_ability.return_timer}"
+        #    f"Bullet delay: {self.ship.weapon.fire_speed}"
+        #    f"max bullets: {self.ship.weapon.max_bullets}"
+        #    f"bullet speed: {self.ship.weapon.bullet_speed}"
+        #    f"Can change? {ship.timer > 10000}",
+        #    f"{"Press F2 to change weapon" if ship.timer > 10000 else ""}",
+        #    f"timer = {ship.weapon.bullet_timer}"
+        #    f"score: {self.score}"
+        )
+        
+        # plays explosion animation if player died 
+        self.ship.death_animation()
+        
+        # render everything
+        gf.update_screen(self.settings, self.screen, self.ship, self.enemy_handler.alien_group, self.upgrade_manager.upgrades_in_screen, self.debug) 
         
